@@ -1,5 +1,5 @@
 import { input, select } from "@inquirer/prompts";
-import { Plataforma, Curso, Usuario } from "./plataforma";
+import { Plataforma, Curso, Usuario } from "./Plataforma";
 
 async function main() {
   const plataforma = new Plataforma<Usuario>();
