@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const prompts_1 = require("@inquirer/prompts");
-const plataforma_1 = require("./plataforma");
+const Plataforma_1 = require("./Plataforma");
 async function main() {
-    const plataforma = new plataforma_1.Plataforma();
+    const plataforma = new Plataforma_1.Plataforma();
     let usuarioActual = null;
     while (true) {
         const opcion = await (0, prompts_1.select)({
@@ -41,7 +41,7 @@ async function main() {
                         const descripcion = await (0, prompts_1.input)({
                             message: "Descripción del curso:",
                         });
-                        plataforma.agregarCurso(new plataforma_1.Curso(titulo, descripcion, usuarioActual.correo));
+                        plataforma.agregarCurso(new Plataforma_1.Curso(titulo, descripcion, usuarioActual.correo));
                         console.log("✅ Curso creado con éxito!");
                     }
                     else if (opcionProfesor === "mis_cursos") {
