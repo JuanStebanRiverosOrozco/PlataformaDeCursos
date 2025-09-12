@@ -44,3 +44,41 @@ interface ICurso {
 
 class CursoOnline implements ICurso { /* ... */ }
 class CursoPresencial implements ICurso { /* ... */ }
+
+3.2 Clase Plataforma<T>
+S (Single Responsibility)
+
+Responsabilidad declarada: Gestionar usuarios y cursos (registro, inscripción, consultas).
+
+Diagnóstico: ❌ No cumple
+
+Justificación: Tiene varias razones de cambio:
+
+Gestión de usuarios (agregarUsuario, buscarUsuario)
+
+Gestión de cursos (agregarCurso, inscribirEstudiante)
+
+Presentación de datos (obtenerCursosProfesor, obtenerEstudiantesDeCursos)
+
+Riesgo: Alta cohesión forzada → acoplamiento; pruebas frágiles si cambian usuarios o cursos.
+
+Refactor propuesto (separar responsabilidades):
+ts
+class UsuarioService {
+  private usuarios: Usuario[] = [];
+  agregar(usuario: Usuario) { /* ... */ }
+  buscar(nombre: string, correo: string): Usuario | null { /* ... */ }
+  listar(): Usuario[] { return this.usuarios; }
+}
+
+class CursoService {
+  private cursos: Curso[] = [];
+  agregar(curso: Curso) { /* ... */ }
+  listar(): Curso[] { return this.cursos; }
+  inscribir(estudiante: Usuario, curso: Curso) { /* ... */ }
+}
+
+class ReporteService {
+  cursosDeProfesor(cursos: Curso[], profesorCorreo: string): any[] { /* ... */ }
+  estudiantesPorCurso(cursos: Curso[], usuarios: Usuario[]): any[] { /* ... */ }
+}
