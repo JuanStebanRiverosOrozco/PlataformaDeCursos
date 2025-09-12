@@ -34,7 +34,7 @@ El archivo `main.ts` maneja la interacción CLI (menús para login, registro y a
 - *Justificación:* No existe una interfaz/abstracción que permita extender comportamientos del curso (ej. curso en línea, curso presencial).  
 - *Refactor propuesto:*
 
-ts
+```ts
 interface ICurso {
   titulo: string;
   descripcion: string;
@@ -44,9 +44,9 @@ interface ICurso {
 
 class CursoOnline implements ICurso { /* ... */ }
 class CursoPresencial implements ICurso { /* ... */ }
-
-3.2 Clase Plataforma<T>
-S (Single Responsibility)
+```
+### 3.2 Clase Plataforma<T>
+#### S (Single Responsibility)
 
 Responsabilidad declarada: Gestionar usuarios y cursos (registro, inscripción, consultas).
 
@@ -63,7 +63,7 @@ Presentación de datos (obtenerCursosProfesor, obtenerEstudiantesDeCursos)
 Riesgo: Alta cohesión forzada → acoplamiento; pruebas frágiles si cambian usuarios o cursos.
 
 Refactor propuesto (separar responsabilidades):
-ts
+```ts
 class UsuarioService {
   private usuarios: Usuario[] = [];
   agregar(usuario: Usuario) { /* ... */ }
@@ -82,3 +82,4 @@ class ReporteService {
   cursosDeProfesor(cursos: Curso[], profesorCorreo: string): any[] { /* ... */ }
   estudiantesPorCurso(cursos: Curso[], usuarios: Usuario[]): any[] { /* ... */ }
 }
+```
