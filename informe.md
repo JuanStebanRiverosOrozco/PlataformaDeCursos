@@ -9,7 +9,7 @@ Existen tres entidades principales:
 - **Curso**
 - **Plataforma** (gestiona usuarios y cursos)
 
-El archivo `main.ts` maneja la interacción CLI (menús para login, registro y acciones según rol).
+El archivo `index.ts` maneja la interacción CLI (menús para login, registro y acciones según rol).
 
 ---
 
@@ -204,4 +204,53 @@ interface IReporteService {
 
 ---
 
-#### D Dependency Inversion Principle (DIP)
+#### D —  Dependency Inversion Principle (DIP)
+
+* ❌ *No cumple*
+* *Justificación:* Depende de arrays internos (Usuario[], Curso[]).
+* *Ejemplo de solución:* usar repositorios inyectados.
+
+```ts
+interface IRepositorioUsuarios {
+  agregar(usuario: Usuario): void;
+  buscar(correo: string): Usuario | null;
+  listar(): Usuario[];
+}
+
+interface IRepositorioCursos {
+  agregar(curso: ICurso): void;
+  buscar(titulo: string): ICurso | null;
+  listar(): ICurso[];
+}
+
+class Plataforma {
+  constructor(
+    private repoUsuarios: IRepositorioUsuarios,
+    private repoCursos: IRepositorioCursos
+  ) {}
+
+  inscribirEstudiante(cursoTitulo: string, correoEstudiante: string) {
+    const curso = this.repoCursos.buscar(cursoTitulo);
+    const estudiante = this.repoUsuarios.buscar(correoEstudiante);
+    if (curso && estudiante) curso.inscribir(estudiante.correo);
+  }
+}
+
+```
+✅ Ahora la lógica funciona con cualquier repositorio (memoria, BD, API externa).
+
+---
+
+### 📌 Conclusión Clase Plataforma<T>
+
+* *Cumple:* Ninguno.
+* *No cumple:* S, O, L, I, D.
+* *Refactor necesario:* dividir en servicios, restringir el genérico, crear interfaces específicas e invertir dependencias mediante repositorios.
+
+---
+
+## 4. Conclusiones Generales
+
+* *Clase Curso*: bien diseñada en SRP, LSP e ISP; requiere mejoras en OCP y DIP.
+* *Clase Plataforma<T>*: concentra demasiada lógica, incumple todos los principios SOLID.
+
