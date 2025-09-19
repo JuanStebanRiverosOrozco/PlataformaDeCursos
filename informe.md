@@ -168,8 +168,40 @@ class ReporteService {
   estudiantesPorCurso(cursos: Curso[], usuarios: Usuario[]): any[] { /* ... */ }
 }
 ```
-#### L Liskov Substitution Principle (LSP)
+---
 
-#### I Interface Segregation Principle (ISP)
+### L — Liskov Substitution
+
+* ❌ **No cumple**
+* **Justificación:** Aunque es genérica `<T>`, en realidad solo funciona con `Usuario`. Si se pasa otro tipo, rompe.
+* **Ejemplo de solución:**
+
+```ts
+export class Plataforma<T extends Usuario> {
+  private usuarios: T[] = [];
+  private cursos: ICurso[] = [];
+}
+```
+
+✅ Ahora se garantiza que siempre será un `Usuario` o subtipos.
+
+---
+
+### I — Interface Segregation
+
+* ❌ **No cumple**
+* **Justificación:** Todos los métodos están en la misma clase, aunque no todos los consumidores los necesiten.
+* **Ejemplo de solución:** separar interfaces pequeñas.
+
+```ts
+interface IReporteService {
+  cursosDeProfesor(correoProfesor: string): any[];
+  estudiantesPorCurso(correoProfesor: string): any[];
+}
+```
+
+✅ Profesores solo dependen de reportes, estudiantes solo de inscripciones.
+
+---
 
 #### D Dependency Inversion Principle (DIP)
