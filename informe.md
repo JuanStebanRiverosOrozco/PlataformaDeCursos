@@ -37,6 +37,8 @@ El archivo `index.ts` maneja la interacción CLI (menús para login, registro y 
 * *Justificación:* Si se quiere extender a distintos tipos de curso (online, presencial), hay que modificar la clase existente.
 * *Ejemplo de solución:*
 
+### sugerencia de mejora
+
 ```ts
 interface ICurso {
   titulo: string;
@@ -68,6 +70,21 @@ class CursoPresencial implements ICurso {
   inscribir(correo: string) { this.estudiantes.push(correo); }
 }
 ```
+---
+### codigo anterior
+---
+```ts
+// Clase Curso
+export class Curso {
+  public estudiantes: string[] = []; // correos inscritos
+
+  constructor(
+    public titulo: string,
+    public descripcion: string,
+    public profesor: string // correo del profesor
+  ) {}
+}
+```
 
 ✅ Ahora está abierto a extensión (nuevos tipos de curso) y cerrado a modificación.
 
@@ -79,10 +96,27 @@ class CursoPresencial implements ICurso {
 * *Justificación:* No tiene subclases aún.
 * *Ejemplo futuro con subclases válidas:*
 
+### sugerencia de mejora
 ```ts
 function inscribirEnCurso(curso: ICurso, correo: string) {
   curso.inscribir(correo); // funciona con CursoOnline y CursoPresencial
 }
+```
+---
+### codigo anterior
+---
+```ts
+// Clase Curso
+export class Curso {
+  public estudiantes: string[] = []; // correos inscritos
+
+  constructor(
+    public titulo: string,
+    public descripcion: string,
+    public profesor: string // correo del profesor
+  ) {}
+}
+
 ```
 
 ✅ Cualquier ICurso puede sustituir a otro sin romper el sistema.
@@ -95,9 +129,26 @@ function inscribirEnCurso(curso: ICurso, correo: string) {
 * *Justificación:* La interfaz ICurso es mínima (datos + inscribir).
 * *Ejemplo:*
 
+### sugerencia de mejora
+
 ```ts
 function mostrarDatosCurso(curso: ICurso) {
   console.log(`${curso.titulo} - ${curso.descripcion}`);
+}
+```
+---
+### codigo anterior
+---
+```ts
+// Clase Curso
+export class Curso {
+  public estudiantes: string[] = []; // correos inscritos
+
+  constructor(
+    public titulo: string,
+    public descripcion: string,
+    public profesor: string // correo del profesor
+  ) {}
 }
 ```
 
@@ -111,9 +162,25 @@ function mostrarDatosCurso(curso: ICurso) {
 * *Justificación:* El código depende directamente de Curso.
 * *Ejemplo de solución:* trabajar contra la interfaz ICurso.
 
+### sugerencia de mejora
+
 ```ts
 function imprimirCurso(curso: ICurso) {
   console.log(`Curso: ${curso.titulo}, Profesor: ${curso.profesor}`);
+}
+```
+---
+### codigo anterior
+---
+```ts
+export class Curso {
+  public estudiantes: string[] = []; // correos inscritos
+
+  constructor(
+    public titulo: string,
+    public descripcion: string,
+    public profesor: string // correo del profesor
+  ) {}
 }
 ```
 
