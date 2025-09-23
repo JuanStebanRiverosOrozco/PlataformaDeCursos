@@ -1,4 +1,4 @@
-INFORME 
+ccINFORME 
 # Informe SOLID  — Proyecto: Plataforma de Cursos
 
 ## 1. Contexto
@@ -442,8 +442,15 @@ export class Plataforma<T> {
 
 * ❌ **No cumple**
 * **Justificación:** Aunque es genérica `<T>`, en realidad solo funciona con `Usuario`. Si se pasa otro tipo, rompe.
+* **Codigo anterior:**
+```ts
+// Clase Plataforma genérica
+export class Plataforma<T> {
+  private cursos: Curso[] = [];
+  private usuarios: T[] = [];
+  }
+```
 * **Ejemplo de solución:**
-
 ```ts
 export class Plataforma<T extends Usuario> {
   private usuarios: T[] = [];
@@ -460,7 +467,7 @@ export class Plataforma<T extends Usuario> {
 * ❌ **No cumple**
 * **Justificación:** Todos los métodos están en la misma clase, aunque no todos los consumidores los necesiten.
 * **Ejemplo de solución:** separar interfaces pequeñas.
-
+* **en este caso no se muestra el codigo anterior por lo que no existe una sección de interfaces:**
 ```ts
 interface IReporteService {
   cursosDeProfesor(correoProfesor: string): any[];
